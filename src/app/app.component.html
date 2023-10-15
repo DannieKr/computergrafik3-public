@@ -1,0 +1,78 @@
+<div class="body">
+  <div class="canvasInputs">
+    <mat-form-field class="matFormField">
+      <mat-label>Masse</mat-label>
+      <input
+        matTooltip="Gibt an, wie schwer die einzelnen Partikel sind. Je höher die Masse, desto größer die benötigte Kraft, um die gleiche Beschleunigung zu erlangen."
+        matInput type="number" step="0.1" [(ngModel)]="particleMass">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <mat-label>Dimension</mat-label>
+      <input matTooltip="Gibt die Anzahl der Partikel an. (Größe &times; Größe)" matInput type="number" min="2" max="20"
+             step="1" [(ngModel)]="clothDimension">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Strukturfedern</mat-label>
+      <input
+        matTooltip="Die Strukturfedern verbinden benachbarte Partikel miteinander. Je höher die Federkonstante, desto statischer die Textilie."
+        matInput type="number" step="0.1"
+        [(ngModel)]="neighborSpringConstant">
+      <mat-checkbox [(ngModel)]="hasNeighborSprings" (change)="hasNeighborSprings=($event.checked)">Federn an?
+      </mat-checkbox>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Scherungsfedern</mat-label>
+      <input
+        matTooltip="Die Scherungsfedern verbinden die Partikel mit ihren diagonalen Nachbarn. Dadurch wird die Textilie in ihrer Form gehalten und hat ein konstantes Volumen."
+        matInput type="number" step="0.1"
+        [(ngModel)]="shearSpringConstant">
+      <mat-checkbox [(ngModel)]="hasShearSprings" (change)="hasShearSprings=($event.checked)">Federn an?</mat-checkbox>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Biegungsfedern</mat-label>
+      <input
+        matTooltip="Die Biegungsfedern verbinden die Partikel mit ihren Nachbarn, die zwei Partikel weiter entfernt sind. Dadurch wird die Textilie biegbar und knickt nicht ein."
+        matInput type="number" step="0.1" [(ngModel)]="bendingSpringConstant">
+      <mat-checkbox [(ngModel)]="hasBendSprings" (change)="hasBendSprings=($event.checked)">Federn an?</mat-checkbox>
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <mat-label>Schrittweite</mat-label>
+      <input matTooltip="Gibt an, wie groß die Schrittweite in Sekunden ist, mit der die Simulation berechnet wird."
+             matInput type="number" step="0.01" [(ngModel)]="inputSchrittweite">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <mat-label>Schwerkraft</mat-label>
+      <input matTooltip="Gibt an, mit welcher Schwerkraft die Partikel bzw. die Textilie angezogen wird." matInput
+             type="number" step="0.1" [(ngModel)]="inputGravity" maxlength="5">
+    </mat-form-field>
+
+    <div class="radioAndButtons">
+      <mat-checkbox matTooltip="Wireframe ausblenden und Material anzeigen." [(ngModel)]="isMeshRendered"
+                    (change)="isMeshRendered=($event.checked)">Render
+      </mat-checkbox>
+      <mat-checkbox matTooltip="Jede Federart wird durch eine andere Farbe erkenntlich gemacht."
+                    [(ngModel)]="areSpringsColored" (change)="areSpringsColored=($event.checked)">Farbige Federn
+      </mat-checkbox>
+    </div>
+
+    <mat-radio-group class="radioAndButtons" [(ngModel)]="inputInterpolationMethod"
+                     (change)="inputInterpolationMethod = $event.value">
+      <mat-radio-button value="euler">Euler</mat-radio-button>
+      <mat-radio-button value="midpoint">Midpoint</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="radioAndButtons">
+      <button mat-raised-button color="primary" (click)="openDialog()">Tutorial</button>
+      <button mat-raised-button color="primary" (click)="resetCloth()">Run</button>
+    </div>
+  </div>
+  <div class="canvas">
+    <canvas #canvas id="canvas" style="width: 100%; height: 100%"></canvas>
+  </div>
+</div>
